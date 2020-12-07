@@ -56,15 +56,15 @@ int binsearch(int low, int high, std::string seat){
         //std::cout << s << " " << low << " " << high << std::endl;
     }
     // std::cout << high << " " << low << '\n';
+    //because of the odd string length of seat, when looking at
+    //rows we must always pick high, when looking at cols we must always pick low
     int row = seat[0] == 'F' || seat[0] == 'B' ? high : low ;
-    //int row = seat[6] == 'F' ? low : high;
-
     //std::cout << row << std::endl;
     return row;
 
 }
-
 int findRow(std::string seat){
+    //isolate the rows
     seat = seat.substr(0,7);
     int low = 0;
     int high = 127;
@@ -74,6 +74,7 @@ int findRow(std::string seat){
 }
 
 int findCol(std::string seat){
+    //isolate the cols
     seat = seat.substr(7,3);
     int low = 0;
     int high = 8;
@@ -100,20 +101,14 @@ void test_SeatID()
     std::cout << "Expected row 102, column 4, seat ID 820." << std::endl << "Received: Row " << findRow(seats[2]) << " Col " <<  findCol(seats[2]) << " ID " << getSeatID(findRow(seats[2]),findCol(seats[2])) << std::endl;
    
 }
-
 int maxSeatID(std::ifstream & seats){
     int max = 0;
     for(std::string seat; std::getline(seats,seat);){
-
         auto id = getSeatID(findRow(seat),findCol(seat));
-        std::cout << seat << " " << id << std::endl;
+        // std::cout << seat << " " << id << std::endl;
         max = id > max ? id : max;
-
-
     }
-
     return max;
-
 }
 
 std::vector<int> getAllIDs(std::ifstream & seats) {
@@ -128,18 +123,11 @@ std::vector<int> getAllIDs(std::ifstream & seats) {
     return ids;
 }
 
-
-
 int main(int argc, char** argv){
     // Open the input file
     std::ifstream input;
     input.open("input");
 
-
-
-    //declare range vectors to serve as binary search
-
-    // findRow("FBFBBFFRLR");
     test_SeatID();
 
     //part 1
